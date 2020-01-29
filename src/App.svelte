@@ -1,7 +1,6 @@
 <script>
 	import Map from './Map.svelte';
 	import YearSlider from './YearSlider.svelte';
-	import YearSlider from './YearSlider.svelte';
 
 	let namesByYearByPlace = getJSON('byYearByPlace');
 	let placeNameById = getJSON('gemeenten');
