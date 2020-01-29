@@ -1,6 +1,7 @@
 <script>
 	import Map from './Map.svelte';
 	import YearSlider from './YearSlider.svelte';
+	import YearSlider from './YearSlider.svelte';
 
 	let namesByYearByPlace = getJSON('byYearByPlace');
 	let placeNameById = getJSON('gemeenten');
@@ -24,9 +25,17 @@
 	function test2(e) {
 		console.log(e.detail);
 	}
+
+	function hoverOn(e) {
+		console.log('hover');
+	}
+
+	function hoverOff(e) {
+		console.log('no hover');	
+	}
 </script>
 
 <main>
-	<Map on:test={test2}//>
-	<YearSlider min="2009" max="2019" default="2012" on:year={test}/>
+	<Map on:selectPlace={test2} on:hoverOfPlace={hoverOn} on:hoverOnPlace={hoverOn}/>
+	<YearSlider min="2009" max="2019" on:year={test}/>
 </main>

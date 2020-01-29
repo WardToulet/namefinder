@@ -3,7 +3,7 @@
 	const dispatch = createEventDispatcher(); 
 	export let min;
 	export let max;
-	export let def = Integer(min + ((max - min) / 2));
+	/*export let def = Math.floor(min + ((max - min) / 2));*/
 
 	function changeYear(e) {
 		dispatch('year', {
@@ -17,6 +17,5 @@
        name="year_inp"
        min={min}
        max={max}
-       value={def}
        on:input={changeYear}
 >

@@ -3,18 +3,21 @@
 	const dispatch = createEventDispatcher(); 
 
 	function hoverOn(e) {
-		dispatch('year', {
-			year: e.target.value
+		dispatch('hoverOnPlace', {
+			id: e.target.id.substr(1)
 		});	
 		e.target.style.fill = 'red';
 	}
 
 	function hoverOff(e) {
+		dispatch('hoverOfPlace', null);
 		e.target.style.fill = '#ccc';
 	}
 
 	function select(e) {
-		console.log('test');
+		dispatch('selectPlace', {
+			id: e.target.id.substr(1)
+		});	
 	}
 </script>
 
