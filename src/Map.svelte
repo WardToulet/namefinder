@@ -56,9 +56,6 @@ function zoom(e){
 
 // https://www.reddit.com/r/javascript/comments/51fqqi/panning_area_inside_the_div/
 // https://jsfiddle.net/sf3edmx0/1/
-var map = document.getElementById('map');
-
-coreMap.onmousedown = startDrag;
 
 function startDrag (e)
 {
@@ -91,7 +88,7 @@ function startDrag (e)
 
 </script>
 <div id="mapcontainer">
-<div id="map" on:wheel={zoom}>
+<div id="map" on:wheel={zoom} on:mousedown={startDrag}>
 <svg class="chart" width="635" height="530">
     <g id="geoPaths" class="Blues" stroke="white" style='stroke-width: 0.005px'
       transform="translate(-18663.671875,-6151.8486328125)scale(57.65557098388672,57.65557098388672)">
