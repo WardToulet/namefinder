@@ -1,10 +1,14 @@
+<svelte:head>
+	<script src="chart.js" on:load={ createChart }></script>
+</svelte:head>
 <script>
-    import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher(); 
-    
-    export let location;
-    export let labels;
-    export let values;
+	
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher(); 
+	
+	export let location;
+    export let labels; 
+    export let values; 
 
     import {afterUpdate} from 'svelte';
 
@@ -42,5 +46,4 @@
 
     afterUpdate(creatChart);
 </script>
-
 <canvas id="myChart"></canvas>

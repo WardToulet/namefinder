@@ -2,6 +2,7 @@
 	import Map from './Map.svelte';
 	import YearSlider from './YearSlider.svelte';
 	import HoverInfo from './HoverInfo.svelte';
+	import Stats from './Stats.svelte';
 	import Graphs from './Graphs.svelte';
 
 	let namesByYearByPlace = null; 
@@ -19,10 +20,13 @@
 
 	let year = 2009;
 	let place = null;
+	let placeId = null;
 	let focussedPlace = null;
 	let hoverPlace = null;
 	let labels = null;
 	let values = null;
+
+	let names = [];
 
 	async function getJSON(name) {
 		let res = await fetch(`./data/${name}.json`);
@@ -40,8 +44,9 @@
 		year = e.detail.year;
 	}
 
-	function test2(e) {
-		console.log(e.detail);
+	function selectPlace(e) {
+		if(placeNameById != null && placeNameById[e.detail.id])
+			names =	namesByYearByPlace[year][e.detail.id].sort((a, b) => a.name > b.name);
 	}
 
 	function focus(e){
@@ -50,18 +55,20 @@
 	}
 
 	function hoverOn(e) {
-		/*if(placeNameById != null)*/
-			/*hoverPlace = placeNameById[e.detail.id];*/
+		if(placeNameById != null && placeNameById[e.detail.id])
+			hoverPlace = placeNameById[e.detail.id];
 	}
 
 	function hoverOff(e) {
+		hoverPlace = null;
 	}
 </script>
 
 <main>
 	<HoverInfo year={year} place={hoverPlace} />
-	<Map on:selectPlace={test2} on:hoverOfPlace={hoverOff} on:hoverOnPlace={hoverOn}/>
+	<Map on:selectPlace={selectPlace} on:hoverOfPlace={hoverOff} on:hoverOnPlace={hoverOn}/>
 	<YearSlider min="2009" max="2019" on:year={setYear}/>
+	<Stats names={names}/>
 	<Graphs location={focussedPlace} labels={["name", "name"]} values[1, 2]/>
 
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
