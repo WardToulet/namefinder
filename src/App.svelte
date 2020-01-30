@@ -36,6 +36,7 @@
 			console.log(names);
 		}
 	}
+	let mNames = null;
 
 	function setYear(e) {
 		year = e.detail.year;

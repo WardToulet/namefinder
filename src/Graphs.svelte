@@ -12,25 +12,34 @@
 		let topNames = top.map(p => p.name);
 		let topCount = top.map(p => p.count);
 
-		ctx = document.getElementById('myChart');
-		if(chart != null) {
-			chart.data = {
-				labels: topNames,
-				datasets: [{
-					backgroundColor: 'black', 
-					borderColor: 'black',
-					data: topCount 
-				}]
-			};
+		if(chart !== null) {
+			console.log(chart);
 
+			if(chart.data.datasets[0] != null) {
+				for(let i = 0; i < chart.data.datasets[0].data.length; i++) {
+					console.log('test');
+					console.log(i);
+					chart.data.datasets[0].data[i] = topCount[i];
+				}
+			} else {
+				chart.data.datasets.push({
+					data: topCount
+				});
+			}
+
+			chart.data.labels = topNames;
 			chart.update();
 		}
 	}
 
 	function createChart() { 
+		ctx = document.getElementById('myChart');
 		chart = new Chart(ctx, {
 			type: 'horizontalBar',
-			options: {}
+			data: {
+				options: {},
+				datasets: []
+			}
 		});
 		console.log(chart);
 	}
