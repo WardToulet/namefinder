@@ -1,3 +1,23 @@
+<style>
+	#mapcontainer {
+		overflow: hidden;
+		width: 800px;
+		height: 600px;
+		position: relative;
+		background-color: blue;
+	}
+
+	#map {
+		left: -200px;
+		top: -200px;
+		width: 1600px;
+		height: 1600px;
+		padding-left: 200px;
+		padding-top: 200px;
+		position: absolute;
+	}
+</style>
+
 <script>
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher(); 
@@ -19,8 +39,60 @@
 			id: e.target.id.substr(1)
 		});	
 	}
-</script>
 
+	let coreMap = document.querySelector('#map');
+let scale = 1;
+
+coreMap.addEventListener("wheel", function(e){
+	e.preventDefault();
+    if(e.deltaY > 0 && scale > 0.7){
+		scale -= 0.1;
+    }
+    else if(e.deltaY < 0 && scale < 3){
+		scale += 0.1;
+	}
+	  
+	document.querySelector('svg').style["transform"] = `scale(${scale})`;	
+})
+
+// https://www.reddit.com/r/javascript/comments/51fqqi/panning_area_inside_the_div/
+// https://jsfiddle.net/sf3edmx0/1/
+var map = document.getElementById('map');
+
+coreMap.onmousedown = startDrag;
+
+function startDrag (e)
+{
+	var startX = e.clientX;
+  var startY = e.clientY;
+  var offsetX = this.offsetLeft;
+  var offsetY = this.offsetTop;
+ 
+  this.onmousemove = function (e2)
+  {
+  	var newX = e2.clientX-startX;
+    var newY = e2.clientY-startY;
+    var calcX = offsetX + newX;
+    var calcY = offsetY + newY;
+   
+    
+    if (calcX < 300 * scale && calcX > -300 * scale)
+    	this.style.left = calcX + 'px';
+    
+    if (calcY < 300 * scale && calcY > -300 * scale)
+    	this.style.top = calcY + 'px';
+  }
+  
+  this.onmouseup = function ()
+  {
+    this.onmouseup = "";
+    this.onmousemove = "";
+  }
+}
+
+</script>
+<div id="mapcontainer">
+<div id="map">
 <svg class="chart" width="635" height="530">
     <g id="geoPaths" class="Blues" style="stroke-width: 0.00346888px;"
       transform="translate(-18663.671875,-6151.8486328125)scale(57.65557098388672,57.65557098388672)">
@@ -1793,3 +1865,5 @@
 	fill="#ccc" class="q0-6"></path>
     </g>
   </svg>
+  </div>
+  </div>
