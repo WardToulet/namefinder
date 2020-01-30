@@ -2,7 +2,8 @@
 	<script src="chart.js" on:load={ createChart }></script>
 </svelte:head>
 <script>
-	export let nameList = null;
+    export let nameList = null;
+    export let gender = "";
 
 	let ctx;
 	let chart = null;
@@ -33,9 +34,9 @@
 	}
 
 	function createChart() { 
-		ctx = document.getElementById('myChart');
+		ctx = document.getElementById('myChart' + gender);
 		chart = new Chart(ctx, {
-			type: 'horizontalBar',
+			type: 'bar',
 			data: {
 				options: {},
 				datasets: []
@@ -44,4 +45,6 @@
 		console.log(chart);
 	}
 </script>
-<canvas id="myChart"></canvas>
+
+<canvas id="myChart{gender}"></canvas>
+<canvas id=""></canvas>
