@@ -6,30 +6,41 @@
     export let labels;
     export let values;
 
-    var ctx = document.getElementById('myChart');
+    import {afterUpdate} from 'svelte';
 
-    let chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'bar',
+    let ctx;
+    let chart;
 
-        // The data for our dataset
-        data: {
-            labels: labels,
-            datasets: [{
-                label: location,
-                backgroundColor: function(context) {
-                    var index = context.dataIndex;
-                    var value = context.dataset.data[index];
-                    return index % 2 ? 'black' : 'white';
-              },
-                borderColor: 'black',
-                data: values
-            }]
-        },
+    function creatChart() {
+        ctx = document.getElementById('myChart');
+        if (chart) {
+            chart.destroy();
+        }
+        chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
 
-        // Configuration options go here
-        options: {}
-    });
+            // The data for our dataset
+            data: {
+                labels,
+                datasets: [{
+                    label: location,
+                    backgroundColor: function(context) {
+                        var index = context.dataIndex;
+                        var value = context.dataset.data[index];
+                        return index % 2 ? 'black' : 'white';
+                },
+                    borderColor: 'black',
+                    data: values
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
+    }
+
+    afterUpdate(creatChart);
 </script>
 
 <canvas id="myChart"></canvas>
