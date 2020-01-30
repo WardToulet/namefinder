@@ -4,7 +4,6 @@
 		width: 800px;
 		height: 600px;
 		position: relative;
-		background-color: blue;
 	}
 
 	#map {
@@ -43,7 +42,7 @@
 	let coreMap = document.querySelector('#map');
 let scale = 1;
 
-coreMap.addEventListener("wheel", function(e){
+function zoom(e){
 	e.preventDefault();
     if(e.deltaY > 0 && scale > 0.7){
 		scale -= 0.1;
@@ -53,7 +52,7 @@ coreMap.addEventListener("wheel", function(e){
 	}
 	  
 	document.querySelector('svg').style["transform"] = `scale(${scale})`;	
-})
+}
 
 // https://www.reddit.com/r/javascript/comments/51fqqi/panning_area_inside_the_div/
 // https://jsfiddle.net/sf3edmx0/1/
@@ -92,7 +91,7 @@ function startDrag (e)
 
 </script>
 <div id="mapcontainer">
-<div id="map">
+<div id="map" on:wheel={zoom}>
 <svg class="chart" width="635" height="530">
     <g id="geoPaths" class="Blues" stroke="white" style='stroke-width: 0.005px'
       transform="translate(-18663.671875,-6151.8486328125)scale(57.65557098388672,57.65557098388672)">
