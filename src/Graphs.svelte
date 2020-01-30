@@ -2,48 +2,37 @@
 	<script src="chart.js" on:load={ createChart }></script>
 </svelte:head>
 <script>
-	
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher(); 
-	
-	export let location;
-    export let labels; 
-    export let values; 
+	export let nameList = null;
 
-    import {afterUpdate} from 'svelte';
+	let ctx;
+	let chart = null;
 
-    let ctx;
-    let chart;
+	$: {
+		let top = nameList !== null ? nameList.sort((p1, p2) => p1.count > p2.count).slice(0, 5) : [];
+		let topNames = top.map(p => p.name);
+		let topCount = top.map(p => p.count);
 
-    function createChart() {
-        ctx = document.getElementById('myChart');
-        if (chart) {
-            chart.destroy();
-        }
-        chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'bar',
+		ctx = document.getElementById('myChart');
+		if(chart != null) {
+			chart.data = {
+				labels: topNames,
+				datasets: [{
+					backgroundColor: 'black', 
+					borderColor: 'black',
+					data: topCount 
+				}]
+			};
 
-            // The data for our dataset
-            data: {
-                labels,
-                datasets: [{
-                    label: location,
-                    backgroundColor: function(context) {
-                        var index = context.dataIndex;
-                        var value = context.dataset.data[index];
-                        return index % 2 ? 'black' : 'white';
-                },
-                    borderColor: 'black',
-                    data: values
-                }]
-            },
+			chart.update();
+		}
+	}
 
-            // Configuration options go here
-            options: {}
-        });
-    }
-
-    afterUpdate(createChart);
+	function createChart() { 
+		chart = new Chart(ctx, {
+			type: 'horizontalBar',
+			options: {}
+		});
+		console.log(chart);
+	}
 </script>
 <canvas id="myChart"></canvas>

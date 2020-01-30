@@ -4,40 +4,37 @@
 	import HoverInfo from './HoverInfo.svelte';
 	import Stats from './Stats.svelte';
 	import Graphs from './Graphs.svelte';
+	import Test from './Test.svelte';
 
 	let namesByYearByPlace = null; 
 	fetch(`./data/byYearByPlace.json`)
 		.then(res => res.json())
 		.then(obj => {
 			namesByYearByPlace = obj
-			console.log(namesByYearByPlace);
+			console.log(obj);
 		});
 
 	let placeNameById = null;
 	fetch(`./data/gemeenten.json`)
 		.then(res => res.json())
-		.then(obj => placeNameById = obj);
+		.then(obj => {
+			placeNameById = obj;
+			console.log(obj);
+		});
 
 	let year = 2009;
-	let place = null;
 	let placeId = null;
-	let focussedPlace = null;
 	let hoverPlace = null;
-	let labels = null;
-	let values = null;
 
-	let names = [];
-
-	async function getJSON(name) {
-		let res = await fetch(`./data/${name}.json`);
-		let obj = await res.json();
-
-		console.log(obj);
-
-		if(!res.ok)
-			return new Error(obj);
-
-		return obj;
+	let names = null;
+	$: { 
+		if(year !== null 
+			&& placeId !== null && namesByYearByPlace !== null 
+			&& namesByYearByPlace[year] !== null)
+		{
+			names = namesByYearByPlace[year][placeId];
+			console.log(names);
+		}
 	}
 
 	function setYear(e) {
@@ -45,8 +42,7 @@
 	}
 
 	function selectPlace(e) {
-		if(placeNameById != null && placeNameById[e.detail.id])
-			names =	namesByYearByPlace[year][e.detail.id].sort((a, b) => a.name > b.name);
+		placeId = e.detail.id;
 	}
 
 	function focus(e){
@@ -55,7 +51,7 @@
 	}
 
 	function hoverOn(e) {
-		if(placeNameById != null && placeNameById[e.detail.id])
+		if(placeNameById !== null && placeNameById[e.detail.id])
 			hoverPlace = placeNameById[e.detail.id];
 	}
 
@@ -69,7 +65,7 @@
 	<Map on:selectPlace={selectPlace} on:hoverOfPlace={hoverOff} on:hoverOnPlace={hoverOn}/>
 	<YearSlider min="2009" max="2019" on:year={setYear}/>
 	<Stats names={names}/>
-	<Graphs location={focussedPlace} labels={["name", "name"]} values[1, 2]/>
-
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+	{#if names != null}
+		<Graphs bind:nameList={names} />
+	{/if}
 </main>
