@@ -15,7 +15,7 @@
     let ctx;
     let chart;
 
-    function creatChart() {
+    function createChart() {
         ctx = document.getElementById('myChart');
         if (chart) {
             chart.destroy();
@@ -44,6 +44,6 @@
         });
     }
 
-    afterUpdate(creatChart);
+    afterUpdate(createChart);
 </script>
 <canvas id="myChart"></canvas>
