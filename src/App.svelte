@@ -3,6 +3,7 @@
 	import YearSlider from './YearSlider.svelte';
 	import HoverInfo from './HoverInfo.svelte';
 	import Stats from './Stats.svelte';
+	import Graphs from './Graphs.svelte';
 
 	let namesByYearByPlace = null; 
 	fetch(`./data/byYearByPlace.json`)
@@ -20,7 +21,10 @@
 	let year = 2009;
 	let place = null;
 	let placeId = null;
+	let focussedPlace = null;
 	let hoverPlace = null;
+	let labels = null;
+	let values = null;
 
 	let names = [];
 
@@ -45,6 +49,11 @@
 			names =	namesByYearByPlace[year][e.detail.id].sort((a, b) => a.name > b.name);
 	}
 
+	function focus(e){
+		e.target.style.fill = 'blue';
+
+	}
+
 	function hoverOn(e) {
 		if(placeNameById != null && placeNameById[e.detail.id])
 			hoverPlace = placeNameById[e.detail.id];
@@ -60,4 +69,7 @@
 	<Map on:selectPlace={selectPlace} on:hoverOfPlace={hoverOff} on:hoverOnPlace={hoverOn}/>
 	<YearSlider min="2009" max="2019" on:year={setYear}/>
 	<Stats names={names}/>
+	<Graphs location={focussedPlace} labels={["name", "name"]} values[1, 2]/>
+
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 </main>
