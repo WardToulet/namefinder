@@ -37,7 +37,11 @@
 		chart = new Chart(ctx, {
 			type: 'horizontalBar',
 			data: {
-				options: {},
+				options: {
+					legend: {
+						display: false
+					}
+				},
 				datasets: []
 			}
 		});

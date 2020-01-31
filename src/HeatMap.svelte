@@ -7,6 +7,8 @@
 	$: doubleWidth = width * 2;
 	$: doubleHeight = height * 2;
 	
+	export let heatById = null;
+
 	function hoverOn(e) {
 		dispatch('hoverOnPlace', {
 			id: e.target.id.substr(1)
